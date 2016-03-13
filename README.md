@@ -1,8 +1,3 @@
-# translate_Immutablejs
-Immutablejs 中文翻译
-
-[官方文档](https://github.com/facebook/immutable-js/)
-
 JavaScript的不可变集合
 ====================================
 
@@ -93,27 +88,22 @@ map2.get('b'); // 50
 ```
 
 
-The case for Immutability
+不变性的场景
 -------------------------
 
-Much of what makes application development difficult is tracking mutation and
-maintaining state. Developing with immutable data encourages you to think
-differently about how data flows through your application.
+令应用开发者觉得困难的最多的情况是跟踪变化和维持状态。带着可变的数据去开发的时候会刺激你去思考数据如何在你的应用中流动。
 
-Subscribing to data events throughout your application creates a huge overhead of
-book-keeping which can hurt performance, sometimes dramatically, and creates
+在你的应用中到处订阅数据事件会导致很糟糕性能问题, and creates
 opportunities for areas of your application to get out of sync with each other
 due to easy to make programmer error. Since immutable data never changes,
 subscribing to changes throughout the model is a dead-end and new data can only
 ever be passed from above.
 
-This model of data flow aligns well with the architecture of [React][]
-and especially well with an application designed using the ideas of [Flux][].
+这个数据结构可以很好的兼容 [React][] 的结构，在使用 [Flux][] 的思想的应用中搭配尤其棒
 
-When data is passed from above rather than being subscribed to, and you're only
-interested in doing work when something has changed, you can use equality.
+当数据从上面穿过而不是被订阅，当有东西变化时，你只需要关注你的工作而不是去订阅他，你可以一样使用
 
-Immutable collections should be treated as *values* rather than *objects*. While
+不变集合应该像 *values* 一样被对待而不是 *objects*. While
 objects represents some thing which could change over time, a value represents
 the state of that thing at a particular instance of time. This principle is most
 important to understanding the appropriate use of immutable data. In order to
@@ -129,18 +119,13 @@ var map3 = map1.set('b', 50);
 assert(map1.equals(map3) === false);
 ```
 
-Note: As a performance optimization `Immutable` attempts to return the existing
-collection when an operation would result in an identical collection, allowing
-for using `===` reference equality to determine if something definitely has not
-changed. This can be extremely useful when used within memoization function
+注意：有一个性能优化的点，就是当一个操作的结果是一个相同的集合时， `Immutable` 尝试去返回一个已经存在的集合，用 `===`  参考去确定是不是没有被改变。
+ This can be extremely useful when used within memoization function
 which would prefer to re-run the function if a deeper equality check could
 potentially be more costly. The `===` equality check is also used internally by
 `Immutable.is` and `.equals()` as a performance optimization.
 
-If an object is immutable, it can be "copied" simply by making another reference
-to it instead of copying the entire object. Because a reference is much smaller
-than the object itself, this results in memory savings and a potential boost in
-execution speed for programs which rely on copies (such as an undo-stack).
+如果一个对象是不可变的，他可以对另一个对象引用来被简单的拷贝，而不是复制整个对象。因为一个引用对于对象来说是很轻量的，结果在内存中并且潜在的促进了那些依赖副本的程序的运行速度（such as an undo-stack）.
 
 ```javascript
 var map1 = Immutable.Map({a:1, b:2, c:3});
@@ -154,20 +139,14 @@ var clone = map1;
 JavaScript-first API
 --------------------
 
-While `immutable` is inspired by Clojure, Scala, Haskell and other functional
-programming environments, it's designed to bring these powerful concepts to
-JavaScript, and therefore has an Object-Oriented API that closely mirrors that
-of [ES6][] [Array][], [Map][], and [Set][].
+当时 `immutable` 是受到 Clojure, Scala, Haskell 和其他的函数式编程语言环境启发,目的是把那些强大的概念带到 JavaScript 里来，所以拥有一个面向对象的API，和 [ES6][] [Array][], [Map][], [Set][] 类似。
 
 [ES6]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla
 [Array]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
 [Map]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
 [Set]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
 
-The difference for the immutable collections is that methods which would mutate
-the collection, like `push`, `set`, `unshift` or `splice` instead return a new
-immutable collection. Methods which return new arrays like `slice` or `concat`
-instead return new immutable collections.
+对于不可变对象不同的是，改变集合的那些方法如 `push`, `set`, `unshift` 或 `splice`是返回一个新的不可变集合。那些返回新数组的方法像： `slice` 或 `concat` 也将返回的是一个新的不可变集合
 
 ```javascript
 var list1 = Immutable.List.of(1, 2);
@@ -181,10 +160,7 @@ assert(list4.size === 13);
 assert(list4.get(0) === 1);
 ```
 
-Almost all of the methods on [Array][] will be found in similar form on
-`Immutable.List`, those of [Map][] found on `Immutable.Map`, and those of [Set][]
-found on `Immutable.Set`, including collection operations like `forEach()`
-and `map()`.
+几乎所有在 [Array][] 的方法都和 `Immutable.List` 的形式很类似， [Map][] 和 `Immutable.Map`， [Set][] 和 `Immutable.Set`，包括集合操作像`forEach()` 和 `map()`
 
 ```javascript
 var alpha = Immutable.Map({a:1, b:2, c:3, d:4});
@@ -192,11 +168,9 @@ alpha.map((v, k) => k.toUpperCase()).join();
 // 'A,B,C,D'
 ```
 
-### Accepts raw JavaScript objects.
+### 接受原生js对象
 
-Designed to inter-operate with your existing JavaScript, `immutable`
-accepts plain JavaScript Arrays and Objects anywhere a method expects an
-`Iterable` with no performance penalty.
+为了和你现有的js互相操作， `immutable` 在任何地方都接受纯js数组和对象，这些方法不会有性能问题
 
 ```javascript
 var map1 = Immutable.Map({a:1, b:2, c:3, d:4});
@@ -206,11 +180,7 @@ var map3 = map1.merge(map2, obj);
 // Map { a: 20, b: 2, c: 10, d: 100, t: 30, o: 200, g: 300 }
 ```
 
-This is possible because `immutable` can treat any JavaScript Array or Object
-as an Iterable. You can take advantage of this in order to get sophisticated
-collection methods on JavaScript Objects, which otherwise have a very sparse
-native API. Because Seq evaluates lazily and does not cache intermediate
-results, these operations can be extremely efficient.
+因为 `immutable` 可以对待任何可迭代的数组和对象。这样你就可以使用一些很复杂的对象方法，而不是使用以前那些稀稀拉拉的原生的API. 因为他是懒执行而不在中间层缓存，所以这些操作会非常高效。
 
 ```javascript
 var myObject = {a:1,b:2,c:3};
@@ -218,9 +188,7 @@ Immutable.Seq(myObject).map(x => x * x).toObject();
 // { a: 1, b: 4, c: 9 }
 ```
 
-Keep in mind, when using JS objects to construct Immutable Maps, that
-JavaScript Object properties are always strings, even if written in a quote-less
-shorthand, while Immutable Maps accept keys of any type.
+要记住的是，当用js对象去构造一个 Immutable Maps 时，这js对象的属性将一直是字符串类型，even if written in a quote-less shorthand，然而 Immutable Maps 接受任何类型的keys
 
 ```js
 var obj = { 1: "one" };
@@ -238,12 +206,10 @@ since Immutable Map keys can be of any type the argument to `get()` is
 not altered.
 
 
-### Converts back to raw JavaScript objects.
+### 转换回原生js对象
 
-All `immutable` Iterables can be converted to plain JavaScript Arrays and
-Objects shallowly with `toArray()` and `toObject()` or deeply with `toJS()`.
-All Immutable Iterables also implement `toJSON()` allowing them to be passed to
-`JSON.stringify` directly.
+所有的可迭代的 `immutable` 都可以被浅转换成纯js数组和对象，利用 `toArray()` 和 `toObject()` 或者使用 `toJS()` 深转换
+所有的 Immutable Iterables 也可以直接通过`JSON.stringify` 实现 `toJSON()`
 
 ```javascript
 var deep = Immutable.Map({ a: 1, b: 2, c: Immutable.List.of(3, 4, 5) });
@@ -253,16 +219,11 @@ deep.toJS() // { a: 1, b: 2, c: [ 3, 4, 5 ] }
 JSON.stringify(deep) // '{"a":1,"b":2,"c":[3,4,5]}'
 ```
 
-### Embraces ES6
+### 拥抱 ES6
 
-`Immutable` takes advantage of features added to JavaScript in [ES6][],
-the latest standard version of ECMAScript (JavaScript), including [Iterators][],
-[Arrow Functions][], [Classes][], and [Modules][]. It's also inspired by the
-[Map][] and [Set][] collections added to ES6. The library is "transpiled" to ES3
-in order to support all modern browsers.
+`Immutable` 充分利用了 JavaScript 中的 [ES6][] 的特性，最新的ECMAScript稳定版本中，包括了[Iterators][],[Arrow Functions][], [Classes][], 和 [Modules][]。他的 [Map][] 和 [Set][] 集合也被es6启发。这个库  "transpiled" es3，是为了去支持所有的现代浏览器.
 
-All examples are presented in ES6. To run in all browsers, they need to be
-translated to ES3.
+所有的例子是用es6去呈现的，为了运行在所有的浏览器中，他需要被转换成es3
 
 ```js
 // ES6
