@@ -1,7 +1,11 @@
+# translate_Immutable.js
+
+Immutable.js 中文翻译
+
+[官方文档](https://github.com/facebook/immutable-js/)
+
 JavaScript的不可变集合
 ====================================
-
-[![Build Status](https://travis-ci.org/facebook/immutable-js.svg)](https://travis-ci.org/facebook/immutable-js)
 
 [Immutable][] 数据一旦创建就不可能被改变, 这样可以让应用开发更加简单，这使得无脑复制、启用高效的内存和变化的检测技术逻辑变得简单. [Persistent][]数据呈现了一个不更新原数据，但是反而总是产出新的更新过的数据的可变的API .
 
