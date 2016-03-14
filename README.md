@@ -242,20 +242,17 @@ foo.map(function (x) { return x * x; });
 [Modules]: http://www.2ality.com/2014/09/es6-modules-final.html
 
 
-Nested Structures
+结构嵌套
 -----------------
 
-The collections in `immutable` are intended to be nested, allowing for deep
-trees of data, similar to JSON.
+在 `immutable` 里的集合一般都会被嵌套，允许深层的树数据，和JSON类似
 
 ```javascript
 var nested = Immutable.fromJS({a:{b:{c:[3,4,5]}}});
 // Map { a: Map { b: Map { c: List [ 3, 4, 5 ] } } }
 ```
 
-A few power-tools allow for reading and operating on nested data. The
-most useful are `mergeDeep`, `getIn`, `setIn`, and `updateIn`, found on `List`,
-`Map` and `OrderedMap`.
+有个一个很小很实用的工具允许你去读取和操作嵌套数据。最有用的有 `mergeDeep`, `getIn`, `setIn`, and `updateIn`，基于`List`,`Map` 和 `OrderedMap`
 
 ```javascript
 var nested2 = nested.mergeDeep({a:{b:{d:6}}});
@@ -273,37 +270,29 @@ var nested4 = nested3.updateIn(['a', 'b', 'c'], list => list.push(6));
 ```
 
 
-Lazy Seq
+懒序列
 --------
 
-`Seq` describes a lazy operation, allowing them to efficiently chain
-use of all the Iterable methods (such as `map` and `filter`).
+`Seq` 描述为一个懒操作，允许他们去高效的链式使用所有的可迭代的方法（像： `map` and `filter`）
 
-**Seq is immutable** — Once a Seq is created, it cannot be
-changed, appended to, rearranged or otherwise modified. Instead, any mutative
-method called on a Seq will return a new Seq.
+**Seq 是不可变的** ——一旦Seq被创建，他就不能被改变，附加，重新排序或除此以外的修改。取而代之的是任何可变的方法访问一个Seq将返回一个新Seq。
 
-**Seq is lazy** — Seq does as little work as necessary to respond to any
-method call.
+**Seq 是懒惰的**——Seq尽可能少去工作以响应任何方法的调用
 
-For example, the following does not perform any work, because the resulting
-Seq is never used:
+比如，下列不会执行任何工作，因为Seq的结果从来没有被用到：
 
     var oddSquares = Immutable.Seq.of(1,2,3,4,5,6,7,8)
       .filter(x => x % 2).map(x => x * x);
 
-Once the Seq is used, it performs only the work necessary. In this
-example, no intermediate arrays are ever created, filter is called three times,
-and map is only called twice:
+一旦Seq被用到了，他只会执行工作上用到的。在这个例子上，没有创建中间的数组，filter被调用了3次，map只被调用了2次。
 
     console.log(oddSquares.get(1)); // 9
 
-Any collection can be converted to a lazy Seq with `.toSeq()`.
+任何集合都可以转换成懒序列：`.toSeq()`
 
     var seq = Immutable.Map({a:1, b:1, c:1}).toSeq();
 
-Seq allow for the efficient chaining of sequence operations, especially when
-converting to a different concrete type (such as to a JS object):
+Seq允许高效链式的序列操作，特别是当转换到一个实际的类型时（比如转成js对象）
 
     seq.flip().map(key => key.toUpperCase()).flip().toObject();
     // Map { A: 1, B: 1, C: 1 }
